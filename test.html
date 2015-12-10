@@ -1,0 +1,134 @@
+<!doctype html>
+<html>
+<body onload = "ball()">
+<h1 style="position:absolute;left:45%;top:10px;font-size:70px;">Pong</h1>
+<h1 style="position:absolute;left:30px;top:80px;">Score 1: <span id="score1">0</span></h1>
+<h1 style="position:absolute;right:30px;top:80px;">Score 2: <span id="score2">0</span></h1>
+<hr style="margin-top:150px;">
+<div id="1"  style="position:absolute;left:0px;top:460px;width:10px;height:150px;background-color:black;">
+</div>
+<div id="3"  style="position:absolute;left:820px;top:510px;width:25px;height:25px;background-color:red;border-radius:50%;">
+</div>
+<div id="2"  style="position:absolute;right:0px;top:460px;width:10px;height:150px;background-color:black;">
+</div>
+</body>
+<script type="text/javascript">
+var height = 717;
+var paddle_height = 150;
+var half_paddle_height = paddle_height / 2;
+var speed1 = 0;
+var pos1 = 460;
+var up_check1 = true;
+var down_check1 = true;
+var speed2 = 0;
+var pos2 = 460;
+var up_check2 = true;
+var down_check2 = true;
+var pos3 = 0;
+var pos4 = 0;
+var speed3 = 0;
+var speed4 = 0;
+var score1 = 0;
+var score2 = 0;
+function ball () {
+	pos3 = 510;
+	pos4 = 820;
+	if (Math.random() < 0.5) {
+		var side = 1
+	} else {
+		var side = -1
+	}
+	speed3 = Math.random() * -2 - 3;
+	speed4 = side * (Math.random() * 2 + 3);
+};
+window.setInterval(function show() {
+	pos1 += speed1;
+	pos2 += speed2;
+	pos3 += speed3;
+	pos4 += speed4;
+	if (pos1 <= 150) {
+		pos1 = 150;
+	};
+	if (pos1 >= height) {
+		pos1 = height;
+	};
+	if (pos2 <= 150) {
+		pos2 = 150;
+	};
+	if (pos2 >= height) {
+		pos2 = height;
+	};
+	if (pos3 <= 150 || pos3 >= 830) {
+		speed3 = -speed3
+	}
+	if (pos4 <= 10) {
+		if (pos3 > pos1 && pos3 < pos1 + paddle_height) {
+			speed4 = -speed4;
+		} else {
+			score2 += 1;
+			ball();
+		}
+	}
+	if (pos4 >= 1647) {
+		if (pos3 > pos2 && pos3 < pos2 + paddle_height) {
+			speed4 = -speed4
+		} else {
+			score1 += 1;
+			ball();
+		}
+	}
+
+	document.getElementById("1").style.top = (pos1) + "px";
+	document.getElementById("2").style.top = (pos2) + "px";
+	document.getElementById('3').style.top = (pos3) + 'px';
+	document.getElementById('3').style.left = (pos4) + 'px';
+	document.getElementById('score1').innerHTML = score1.toString();
+	document.getElementById('score2').innerHTML = score2.toString();
+	}, 1000/60);
+
+document.addEventListener('keydown', function (e) {
+	var acc = 10;
+	if (up_check1) {
+    	if (e.keyCode == 87 || e.which == 87) {
+    		speed1 -= acc;
+    		up_check1 = false;
+    	}}
+    if (down_check1) {
+    	if (e.keyCode == 83 || e.which == 83) {
+    		speed1 += acc;
+    		down_check1 = false;
+    	}}
+    if (up_check2) {
+    	if (e.keyCode == 38 || e.which == 38) {
+    		speed2 -= acc;
+    		up_check2 = false;
+    	}}
+    if (down_check2) {
+    	if (e.keyCode == 40 || e.which == 40) {
+    		speed2 += acc;
+    		down_check2 = false;
+    	}}
+}, false);
+
+window.addEventListener('keyup', function (e) {
+	var acc = 10;
+	if (e.keyCode == 87 || e.which == 87) {
+		speed1 += acc;
+		up_check1 = true;
+	}
+	if (e.keyCode == 83 || e.which == 83) {
+		speed1 -= acc;
+		down_check1 = true;
+	}
+	if (e.keyCode == 38 || e.which == 38) {
+		speed2 += acc;
+		up_check2 = true;
+	}
+	if (e.keyCode == 40 || e.which == 40) {
+		speed2 -= acc;
+		down_check2 = true;
+	}
+}, false);
+
+</script>
+</html>
